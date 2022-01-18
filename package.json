@@ -1,0 +1,11 @@
+{
+    "name": "k8s-on-openstack",
+    "devDependencies": {
+        "@types/node": "^14"
+    },
+    "dependencies": {
+        "@pulumi/command": "^0.0.3",
+        "@pulumi/openstack": "^3.0.0",
+        "@pulumi/pulumi": "^3.0.0"
+    }
+}
