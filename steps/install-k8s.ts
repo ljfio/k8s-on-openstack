@@ -8,7 +8,7 @@ export interface InstallKubernetesArgs {
 
 export function installKubernetes(instance: os.compute.Instance, args: InstallKubernetesArgs): command.remote.Command {
     const copyInstallFile = new command.remote.CopyFile(`copy-install-script-${args.name}`, {
-        localPath: 'install.sh',
+        localPath: '../scripts/install.sh',
         remotePath: 'install.sh',
         connection: args.connection
     }, {
