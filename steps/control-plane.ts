@@ -2,6 +2,8 @@ import * as pulumi from "@pulumi/pulumi";
 import * as os from "@pulumi/openstack";
 import * as command from "@pulumi/command";
 
+import * as path from "path";
+
 import { installKubernetes } from "./install-k8s";
 
 export interface SetupControlPlaneArgs {
@@ -38,7 +40,7 @@ export function setupControlPlane(provider: os.Provider, args: SetupControlPlane
     });
 
     const copySetupFile = new command.remote.CopyFile(`copy-setup-script-${args.name}`, {
-        localPath: '../scripts/setup-control-plane.sh',
+        localPath: path.normalize(path.join(__dirname, '../scripts/setup-control-plane.sh')),
         remotePath: 'setup.sh',
         connection
     }, {
