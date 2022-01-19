@@ -13,14 +13,14 @@ export function installKubernetes(instance: os.compute.Instance, args: InstallKu
         remotePath: 'install.sh',
         connection: args.connection
     }, {
-        dependsOn: [instance]
+        dependsOn: instance
     });
 
     const runInstallCommand = new command.remote.Command(`run-install-script-${args.name}`, {
         create: "sudo sh install.sh",
         connection: args.connection
     }, {
-        dependsOn: [copyInstallFile]
+        dependsOn: copyInstallFile
     });
 
     return runInstallCommand;

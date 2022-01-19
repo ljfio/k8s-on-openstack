@@ -44,28 +44,28 @@ export function setupControlPlane(provider: os.Provider, args: SetupControlPlane
         remotePath: 'setup.sh',
         connection
     }, {
-        dependsOn: [installKubernetesCommand]
+        dependsOn: installKubernetesCommand
     })
 
     const runSetupCommand = new command.remote.Command(`run-setup-script-${args.name}`, {
         create: "sudo sh setup.sh",
         connection,
     }, {
-        dependsOn: [copySetupFile]
+        dependsOn: copySetupFile
     });
 
     const runCreateTokenCommand = new command.remote.Command(`run-create-token-${args.name}`, {
         create: "kubeadm token create",
         connection,
     }, {
-        dependsOn: [runSetupCommand]
+        dependsOn: runSetupCommand
     });
 
     const runGenerateCertificateKeyCommand = new command.remote.Command(`run-generate-certificate-key-${args.name}`, {
         create: "kubeadm certs certificate-key",
         connection,
     }, {
-        dependsOn: [runSetupCommand]
+        dependsOn: runSetupCommand
     });
 
     return {
