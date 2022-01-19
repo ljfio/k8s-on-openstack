@@ -12,35 +12,35 @@ let region = config.require("region");
 let keyPair = config.get("keyPair");
 
 const provider = new os.Provider("openstack", {
-	cloud: cloud,
-	region: region,
+    cloud: cloud,
+    region: region,
 });
 
 const controlPlane = setupControlPlane(provider, {
-	name: "kube-cp-1",
-	region: region,
-	user: "ubuntu",
-	keyPair: keyPair
+    name: "kube-cp-1",
+    region: region,
+    user: "ubuntu",
+    keyPair: keyPair
 });
 
 const node1Instance = setupNode(provider, {
-	name: "kube-node-1",
-	region: region,
-	user: "ubuntu",
-	keyPair: keyPair,
-	controlPlane: controlPlane.instance,
-	certificateKey: controlPlane.certificateKey,
-	token: controlPlane.token
+    name: "kube-node-1",
+    region: region,
+    user: "ubuntu",
+    keyPair: keyPair,
+    controlPlane: controlPlane.instance,
+    certificateKey: controlPlane.certificateKey,
+    token: controlPlane.token
 });
 
 const node2Instance = setupNode(provider, {
-	name: "kube-node-2",
-	region: region,
-	user: "ubuntu",
-	keyPair: keyPair,
-	controlPlane: controlPlane.instance,
-	certificateKey: controlPlane.certificateKey,
-	token: controlPlane.token
+    name: "kube-node-2",
+    region: region,
+    user: "ubuntu",
+    keyPair: keyPair,
+    controlPlane: controlPlane.instance,
+    certificateKey: controlPlane.certificateKey,
+    token: controlPlane.token
 });
 
 exports.ipAddress = controlPlane.instance.accessIpV4;
