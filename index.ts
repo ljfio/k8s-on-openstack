@@ -10,6 +10,7 @@ let config = new pulumi.Config();
 let cloud = config.require("cloud");
 let region = config.require("region");
 let keyPair = config.get("keyPair");
+let user = config.get("user") || "ubuntu";
 
 const provider = new os.Provider("openstack", {
     cloud: cloud,
@@ -19,14 +20,14 @@ const provider = new os.Provider("openstack", {
 const controlPlane = setupControlPlane(provider, {
     name: "kube-cp-1",
     region: region,
-    user: "ubuntu",
+    user: user,
     keyPair: keyPair
 });
 
 const node1Instance = setupNode(provider, {
     name: "kube-node-1",
     region: region,
-    user: "ubuntu",
+    user: user,
     keyPair: keyPair,
     controlPlane: controlPlane.instance,
     certificateKey: controlPlane.certificateKey,
@@ -36,7 +37,7 @@ const node1Instance = setupNode(provider, {
 const node2Instance = setupNode(provider, {
     name: "kube-node-2",
     region: region,
-    user: "ubuntu",
+    user: user,
     keyPair: keyPair,
     controlPlane: controlPlane.instance,
     certificateKey: controlPlane.certificateKey,
