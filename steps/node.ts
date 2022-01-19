@@ -8,7 +8,8 @@ export interface SetupNodeArgs {
     name: string;
     region: pulumi.Input<string>;
     user: pulumi.Input<string>;
-    keyPair?: pulumi.Input<string>;
+    keyPair: pulumi.Input<string>;
+    privateKey: pulumi.Input<string>;
     controlPlane: os.compute.Instance;
     token: pulumi.Input<string>;
     certificateKey: pulumi.Input<string>;
@@ -28,6 +29,7 @@ export function setupNode(provider: os.Provider, args: SetupNodeArgs): os.comput
     const connection: command.types.input.remote.ConnectionArgs = {
         host: instance.accessIpV4,
         user: args.user,
+        privateKey: args.privateKey,
     };
 
     const installKubernetesCommand = installKubernetes(instance, {

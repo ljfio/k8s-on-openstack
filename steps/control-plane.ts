@@ -8,7 +8,8 @@ export interface SetupControlPlaneArgs {
     name: string;
     region: pulumi.Input<string>;
     user: pulumi.Input<string>;
-    keyPair?: pulumi.Input<string>;
+    keyPair: pulumi.Input<string>;
+    privateKey: pulumi.Input<string>;
 };
 
 export interface SetupControlPlaneResult {
@@ -28,6 +29,7 @@ export function setupControlPlane(provider: os.Provider, args: SetupControlPlane
     const connection: command.types.input.remote.ConnectionArgs = {
         host: instance.accessIpV4,
         user: args.user,
+        privateKey: args.privateKey,
     };
 
     var installKubernetesCommand = installKubernetes(instance, {
