@@ -5,7 +5,7 @@ kubeadm config print init-defaults | tee ClusterConfiguration.yaml
 
 dasel put string -p yaml -f ClusterConfiguration.yaml -s '[0].localAPIEndpoint.advertiseAddress' $(hostname -I)
 
-dasel put string -p yaml -f ClusterConfiguration.yaml -s '[0].nodeRegistration.criSocket' $(hostname)
+dasel put string -p yaml -f ClusterConfiguration.yaml -s '[0].nodeRegistration.name' $(hostname)
 
 dasel put string -p yaml -f ClusterConfiguration.yaml -s '[0].nodeRegistration.criSocket' '/var/run/containerd/containerd.sock'
 
