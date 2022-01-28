@@ -19,9 +19,13 @@ dasel put string -p yaml -f ClusterConfiguration.yaml \
     -s '(kind=ClusterConfiguration).controlPlaneEndPoint' \
     $(hostname)
 
-dasel put document -p yaml -d json -f ClusterConfiguration.yaml \
-    -s '(kind=ClusterConfiguration).apiServer.certSANs' \
-    '["$(hostname)", "$(hostname -I)"]'
+dasel put string -p yaml -f ClusterConfiguration.yaml \
+    -s '(kind=ClusterConfiguration).apiServer.certSANs.[]' \
+    $(hostname)
+
+dasel put string -p yaml -f ClusterConfiguration.yaml \
+    -s '(kind=ClusterConfiguration).apiServer.certSANs.[]' \
+    $(hostname -I)
 
 cat <<EOF | tee -a ClusterConfiguration.yaml
 ---
