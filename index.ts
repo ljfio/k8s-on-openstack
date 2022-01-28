@@ -47,7 +47,7 @@ const node1Instance = setupNode(provider, {
     privateKey: privateKey,
     controlPlane: controlPlane.instance,
     certificateKey: controlPlane.certificateKey,
-    token: controlPlane.token
+    token: controlPlane.token,
 });
 
 const node2Instance = setupNode(provider, {
@@ -58,7 +58,7 @@ const node2Instance = setupNode(provider, {
     privateKey: privateKey,
     controlPlane: controlPlane.instance,
     certificateKey: controlPlane.certificateKey,
-    token: controlPlane.token
+    token: controlPlane.token,
 });
 
 exports.ipAddress = controlPlane.instance.accessIpV4;
