@@ -1,7 +1,7 @@
 #!/bin/sh
 curl -L -O https://docs.projectcalico.org/manifests/calico.yaml
 
-kubeadm config print init-defaults | tee ClusterConfiguration.yaml
+sudo kubeadm config print init-defaults | tee ClusterConfiguration.yaml
 
 dasel put string -p yaml -f ClusterConfiguration.yaml \
     -s '(kind=InitConfiguration).localAPIEndpoint.advertiseAddress' \
@@ -34,12 +34,12 @@ kind: KubeletConfiguration
 cgroupDriver: systemd
 EOF
 
-kubeadm init --config ClusterConfiguration.yaml
+sudo kubeadm init --config ClusterConfiguration.yaml
 
 mkdir -p $HOME/.kube
 
-cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo cp -f /etc/kubernetes/admin.conf $HOME/.kube/config
 
-chown $(id -u):$(id -g) $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
 
 kubectl apply -f calico.yaml
