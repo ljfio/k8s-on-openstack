@@ -37,7 +37,7 @@ export function setupNode(provider: os.Provider, args: SetupNodeArgs): os.comput
     });
 
     const runJoinCommand = new command.remote.Command(`run-setup-${args.name}`, {
-        create: args.joinCommand,
+        create: pulumi.interpolate`sudo ${args.joinCommand}`,
         connection,
     }, {
         dependsOn: installKubernetesCommand
