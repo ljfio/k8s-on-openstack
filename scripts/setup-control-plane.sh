@@ -1,5 +1,4 @@
 #!/bin/sh
-curl -L -O https://docs.projectcalico.org/manifests/calico.yaml
 
 sudo kubeadm config print init-defaults | tee ClusterConfiguration.yaml
 
@@ -41,5 +40,8 @@ mkdir -p $HOME/.kube
 sudo cp -f /etc/kubernetes/admin.conf $HOME/.kube/config
 
 sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+# install CNI
+curl -L -O https://docs.projectcalico.org/manifests/calico.yaml
 
 kubectl apply -f calico.yaml
