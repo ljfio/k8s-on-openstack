@@ -34,7 +34,7 @@ kind: KubeletConfiguration
 cgroupDriver: systemd
 EOF
 
-kubeadm init --config ClusterConfiguration.yaml --cri-socket /var/run/containerd/containerd.sock
+kubeadm init --config ClusterConfiguration.yaml
 
 mkdir -p $HOME/.kube
 
