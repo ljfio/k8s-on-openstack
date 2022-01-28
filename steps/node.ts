@@ -11,8 +11,7 @@ export interface SetupNodeArgs {
     keyPair: pulumi.Input<string>;
     privateKey: pulumi.Input<string>;
     controlPlane: os.compute.Instance;
-    token: pulumi.Input<string>;
-    certificateKey: pulumi.Input<string>;
+    joinCommand: pulumi.Input<string>;
 };
 
 export function setupNode(provider: os.Provider, args: SetupNodeArgs): os.compute.Instance {
@@ -37,8 +36,8 @@ export function setupNode(provider: os.Provider, args: SetupNodeArgs): os.comput
         connection,
     });
 
-    const runSetupCommand = new command.remote.Command(`run-setup-${args.name}`, {
-        create: pulumi.interpolate`sudo kubeadm join https://${args.controlPlane.accessIpV4}:6443 --token ${args.token} --certificate-key ${args.certificateKey}`,
+    const runJoinCommand = new command.remote.Command(`run-setup-${args.name}`, {
+        create: args.joinCommand,
         connection,
     }, {
         dependsOn: installKubernetesCommand
