@@ -3,11 +3,25 @@ curl -L -O https://docs.projectcalico.org/manifests/calico.yaml
 
 kubeadm config print init-defaults | tee ClusterConfiguration.yaml
 
-dasel put string -p yaml -f ClusterConfiguration.yaml -s '[0].localAPIEndpoint.advertiseAddress' $(hostname -I)
+dasel put string -p yaml -f ClusterConfiguration.yaml \
+    -s '(kind=InitConfiguration).localAPIEndpoint.advertiseAddress' \
+    $(hostname -I)
 
-dasel put string -p yaml -f ClusterConfiguration.yaml -s '[0].nodeRegistration.name' $(hostname)
+dasel put string -p yaml -f ClusterConfiguration.yaml \
+    -s '(kind=InitConfiguration).nodeRegistration.name' \
+    $(hostname)
 
-dasel put string -p yaml -f ClusterConfiguration.yaml -s '[0].nodeRegistration.criSocket' '/var/run/containerd/containerd.sock'
+dasel put string -p yaml -f ClusterConfiguration.yaml \
+    -s '(kind=InitConfiguration).nodeRegistration.criSocket' \
+    '/var/run/containerd/containerd.sock'
+
+dasel put string -p yaml -f ClusterConfiguration.yaml \
+    -s '(kind=ClusterConfiguration).controlPlaneEndPoint' \
+    $(hostname)
+
+dasel put document -p yaml -d json -f ClusterConfiguration.yaml \
+    -s '(kind=ClusterConfiguration).apiServer.certSANs' \
+    '["$(hostname)", "$(hostname -I)"]'
 
 cat <<EOF | tee -a ClusterConfiguration.yaml
 ---
