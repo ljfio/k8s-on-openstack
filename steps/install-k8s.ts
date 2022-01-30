@@ -14,6 +14,7 @@ export function installKubernetes(instance: os.compute.Instance, args: InstallKu
         connection: args.connection,
     }, {
         dependsOn: instance,
+        parent: instance,
     });
 
     const runInstallCommand = new command.remote.Command(`run-install-script-${args.name}`, {
@@ -21,6 +22,7 @@ export function installKubernetes(instance: os.compute.Instance, args: InstallKu
         connection: args.connection,
     }, {
         dependsOn: copyInstallFile,
+        parent: instance,
     });
 
     return runInstallCommand;

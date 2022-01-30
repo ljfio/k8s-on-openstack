@@ -40,7 +40,8 @@ export function setupNode(provider: os.Provider, args: SetupNodeArgs): os.comput
         create: pulumi.interpolate`sudo ${args.joinCommand}`,
         connection,
     }, {
-        dependsOn: installKubernetesCommand
+        dependsOn: installKubernetesCommand,
+        parent: instance,
     });
 
     return instance;
