@@ -1,6 +1,9 @@
 #!/bin/sh
 
 # let iptables see bridged traffic
+sudo modprobe overlay
+sudo modprobe br_netfilter
+
 cat <<EOF | tee /etc/modules-load.d/containerd.conf
 overlay
 br_netfilter
@@ -12,6 +15,7 @@ net.bridge.bridge-nf-call-iptables = 1
 net.bridge.bridge-nf-call-ip6tables = 1
 EOF
 
+# apply to current environment
 sysctl --system
 
 # update apt
@@ -32,8 +36,11 @@ curl -L -o /usr/local/bin/dasel https://github.com/TomWright/dasel/releases/down
 # change permissions
 chmod +x /usr/local/bin/dasel
 
-# set the
+# set the cgroup driver
 dasel put bool -f /etc/containerd/config.toml '.plugins.io\.containerd\.grpc\.v1\.cri.containerd.runtimes.runc.options.SystemdCgroup' true
+
+# restart containerd
+systemctl restart containerd
 
 # install curl
 apt-get install -y apt-transport-https ca-certificates curl
@@ -56,5 +63,5 @@ apt install -y kubelet kubeadm kubectl
 apt-mark hold kubelet kubeadm kubectl
 
 # enable service
-systemctl enable kubelet.service
-systemctl enable containerd.service
+systemctl enable kubelet
+systemctl enable containerd
