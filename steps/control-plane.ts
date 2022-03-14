@@ -40,7 +40,7 @@ export function setupControlPlane(provider: os.Provider, args: SetupControlPlane
 
     const copySetupFile = new command.remote.CopyFile(`copy-setup-script-${args.name}`, {
         localPath: path.normalize(path.join(__dirname, '../scripts/setup-control-plane.sh')),
-        remotePath: 'setup.sh',
+        remotePath: '/tmp/setup.sh',
         connection
     }, {
         dependsOn: installKubernetesCommand,
@@ -48,7 +48,7 @@ export function setupControlPlane(provider: os.Provider, args: SetupControlPlane
     })
 
     const runSetupCommand = new command.remote.Command(`run-setup-script-${args.name}`, {
-        create: "sh setup.sh",
+        create: "sh /tmp/setup.sh",
         connection,
     }, {
         dependsOn: copySetupFile,
