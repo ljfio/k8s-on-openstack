@@ -59,4 +59,17 @@ const node2Instance = setupNode(provider, {
     joinCommand: controlPlane.joinCommand,
 });
 
-exports.ipAddress = controlPlane.instance.accessIpV4;
+exports.controlPlane = {
+    ipAddress: controlPlane.instance.accessIpV4,
+};
+
+exports.nodes = [
+    {
+        name: node1Instance.name,
+        ipAddress: node1Instance.accessIpV4,
+    },
+    {
+        name: node2Instance.name,
+        ipAddress: node2Instance.accessIpV4,
+    }
+];
