@@ -4,7 +4,7 @@ sudo kubeadm config print init-defaults | tee ClusterConfiguration.yaml
 
 dasel put string -p yaml -f ClusterConfiguration.yaml \
     -s '(kind=InitConfiguration).localAPIEndpoint.advertiseAddress' \
-    $(hostname -I)
+    $(hostname -I | awk -F ' ' '{print $1}')
 
 dasel put string -p yaml -f ClusterConfiguration.yaml \
     -s '(kind=InitConfiguration).nodeRegistration.name' \
@@ -24,7 +24,7 @@ dasel put string -p yaml -f ClusterConfiguration.yaml \
 
 dasel put string -p yaml -f ClusterConfiguration.yaml \
     -s '(kind=ClusterConfiguration).apiServer.certSANs.[]' \
-    $(hostname -I)
+    $(hostname -I | awk -F ' ' '{print $1}')
 
 cat <<EOF | tee -a ClusterConfiguration.yaml
 ---
