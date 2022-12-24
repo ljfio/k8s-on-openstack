@@ -1,0 +1,35 @@
+variant: fcos
+version: 1.4.0
+storage:
+  files:
+    - path: /etc/hostname
+      mode: 0644
+      contents:
+        inline: k8s
+    - path: /usr/local/bin/dasel
+      mode: 0755
+      contents:
+        source: https://github.com/TomWright/dasel/releases/download/v1.22.1/dasel_linux_amd64
+        verification:
+          hash: sha265-86f7aa2ccaa922c6917cbd24c4cfc9eb2eac90613f4b2be4c332406cf7515b1d
+    - path: /etc/yum.repos.d/kubernetes.repo
+      mode: 0644
+      contents:
+        inline: |
+          [kubernetes]
+          name=Kubernetes
+          baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-x86_64
+          enabled=1
+          gpgcheck=1
+          gpgkey=https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
+    - path: /etc/modules-load.d/br_netfilter.conf
+      mode: 0644
+      contents:
+        inline: |
+          br_netfilter
+    - path: /etc/sysctl.d/99-kubernetes-cri.conf
+      mode: 0644
+      contents:
+        inline: |
+          net.bridge.bridge-nf-call-iptables=1
+          net.ipv4.ip_forward=1
