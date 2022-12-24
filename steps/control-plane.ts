@@ -39,7 +39,7 @@ export function setupControlPlane(provider: os.Provider, args: SetupControlPlane
     });
 
     const copySetupFile = new command.remote.CopyFile(`copy-setup-script-${args.name}`, {
-        localPath: path.normalize(path.join(__dirname, '../scripts/setup-control-plane.sh')),
+        localPath: path.normalize(path.join(__dirname, '../ubuntu/scripts/setup-control-plane.sh')),
         remotePath: '/tmp/setup.sh',
         connection
     }, {
